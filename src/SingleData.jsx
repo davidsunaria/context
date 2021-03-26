@@ -1,13 +1,14 @@
 import React from "react"
+import Name from "./Name"
 import { UserContext } from "./contextApi"
 
 export default class SingleData extends React.Component{
 
-     getData(){
+     getData=(contextData)=>{
 
          //console.log(this.props.data)
          if(this.props.data !==undefined){
-            this.props.handler(this.props.data)
+            contextData.handler(this.props.data)
          }
      }
     
@@ -25,9 +26,9 @@ export default class SingleData extends React.Component{
                 
                 {
                     (contextData)=>{
-                        if(this.props.select!==undefined){
+                        if(this.props.select!==undefined && this.props.data[this.props.select]){
                             data=<div style={{border:this.props.border}} className="leftData">
-                            <h2>{this.props.data[this.props.select]}</h2>
+                               <Name singleName={this.props.data[this.props.select]}/>
                             </div>
                            }
                          else{
@@ -39,7 +40,7 @@ export default class SingleData extends React.Component{
                         </div>
                          }
                          return(
-                             <div onClick={()=>{contextData.handler(this.props.data)}}>
+                             <div onClick={()=>{this.getData(contextData)}} className="detail">
                              {data}
                              </div>
                          )  

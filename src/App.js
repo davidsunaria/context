@@ -3,6 +3,7 @@ import axios from "axios"
 import UserList from "./UserList"
 import "./index.css"
 import SingleData from "./SingleData"
+import {UserContext} from "./contextApi"
 
 export default class App extends React.Component{
 
@@ -35,15 +36,15 @@ export default class App extends React.Component{
 
   render(){
     return(
-      <>
+      <UserContext.Provider value={{handler:this.getData.bind(this),selectedData:this.state.user2}}>
       <div className="left">
-        <UserList userData={this.state.user} handler={this.getData.bind(this)} />
+        <UserList userData={this.state.user}/>
       </div>
       <div className="right">
-        <SingleData selectedData={this.state.user2} />
+        <SingleData />
       </div>
 
-      </>
+      </UserContext.Provider>
     )
   }
 }

@@ -1,4 +1,5 @@
 import React from "react"
+import { UserContext } from "./contextApi"
 
 export default class SingleData extends React.Component{
 
@@ -20,25 +21,44 @@ export default class SingleData extends React.Component{
         let data=null
         if(this.props.select!==undefined){
          data=<div style={{border:this.props.border}} className="leftData">
-         <h2>{this.props.data.name}</h2>
+         <h2>{this.props.data[this.props.select]}</h2>
          </div>
         }
         else{
-         
-            data=<div>
-                <h1>UserDetail is Below:</h1>
-                <h1>Name: {this.props.selectedData.name}</h1>
-                <h2>City: {this.props.selectedData.address.city}</h2>
-                <h2>Phone: {this.props.selectedData.phone}</h2>
-            </div>
+           <UserContext.Consumer>
+             {
+                 (contextData)=>{
+                     return (
+                        data=<div>
+                        <h1>UserDetail is Below:</h1>
+                        <h1>Name: {contextData.selectedData.name}</h1>
+                        <h2>City: {contextData.selectedData.address.city}</h2>
+                        <h2>Phone: {contextData.selectedData.phone}</h2>
+                    </div>
+                     )
+                 }
+             }
+
+           </UserContext.Consumer>
+           
 
         }
         
 
         return(
-            <div onClick={this.getData.bind(this)}>
-            {data}
-            </div>
+           
+             <UserContext.Consumer>{(contextData)=>{
+                  return(
+                    <div onClick={()=>{
+                        contextData.handler(this.props.data)
+                    }}>
+                    {data}
+                    </div>
+                  )
+
+             }}</UserContext.Consumer>
+         
+            
         )
     }
 
